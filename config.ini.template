@@ -1,0 +1,24 @@
+; vim: set ft=dosini:
+[web]
+; The webhook of the lark robot.
+webhook = 
+; The robot host
+host = 0.0.0.0
+; The robot port
+port = 50000
+
+[behavior]
+; Whether to save all received github notifications as files to debug.
+save_receive = no
+; Whether only send lark messages on weekends.
+only_weekdays = yes
+; The begin time of work
+begin_work = 10:00
+; The end time of work
+end_work = 19:00
+
+[member]
+; The maintainer GitHub name.
+maintainer = GITHUB_NAME
+; The mapping of GitHub name to lark openid. Every line should be like:
+; GITHUB_NAME = <at user_id="OPENID">NAME</at>

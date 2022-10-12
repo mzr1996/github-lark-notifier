@@ -1,0 +1,6 @@
+*.log
+__pycache__/*
+config.ini
+history.txt
+receive/*
+log/*
