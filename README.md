@@ -2,7 +2,7 @@
 github - 飞书自定义消息提醒
 
 # Feature
-1. issue 创建，PR 创建，请求 PR review，提交 review 意见（Request Changes / Approve）时，给飞书发提醒
+1. issue 创建，评论 issue，PR 创建，请求 PR review，提交 review 意见（Request Changes / Approve），创建 Discussion 讨论，评论 Discussion 讨论时，给飞书发提醒
 2. 仅周一至周五且 10~19 点才工作（可在 `config.ini` 中配置）
 3. 非工作期间的消息，都记入 `history.txt`，到达工作时间时一起发。
 
