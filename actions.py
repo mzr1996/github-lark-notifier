@@ -23,6 +23,26 @@ class OpenIssue:
         return f"【Issue】{title}\n{url}\n"
 
 @register
+class CommentIssue:
+    def condition(self, message: dict):
+        action = message.get('action', None)
+        return (action == 'created' and 'issue' in message
+                and 'comment' in message)
+
+    def report(self, message: dict):
+        issue = message['issue']
+        comment = message['comment']
+        title = issue.get('title', "")
+        url = comment.get('html_url', "")
+        author = comment['user']['login']
+        if author in MEMBER_MAPPING or author in "mm-assistant[bot]":
+            # 成员的评论回复不用通知了
+            return None
+
+        return f"【Issue】{author} 评论了 {title}\n{url}\n"
+
+
+@register
 class OpenPR:
     def condition(self, message:dict):
         action = message.get('action', None)
@@ -93,3 +113,39 @@ class SubmitReview:
             return f"【PR】{reviewer} 同意了 PR{number}. {maintainer}\n{url}\n"
 
         return None
+
+@register
+class CreateDiscussion:
+    def condition(self, message:dict):
+        action = message.get('action', None)
+        return (action == 'created' and 'discussion' in message
+                and 'comment' not in message)
+
+    def report(self, message: dict):
+        discussion = message['discussion']
+        url = discussion.get('html_url', "")
+        title = discussion.get('title')
+
+        author = discussion['user']['login']
+
+        return f'【讨论】{author} 创建了新的讨论：{title}\n{url}\n'
+
+@register
+class CommentDiscussion:
+    def condition(self, message:dict):
+        action = message.get('action', None)
+        return (action == 'created' and 'discussion' in message
+                and 'comment' in message)
+
+    def report(self, message: dict):
+        discussion = message['discussion']
+        comment = message['comment']
+        url = comment.get('html_url', "")
+        title = discussion.get('title')
+
+        author = comment['user']['login']
+        if author in MEMBER_MAPPING:
+            # 成员的评论回复不用通知了
+            return None
+
+        return f'【讨论】{author} 评论了 {title}\n{url}\n'
